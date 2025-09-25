@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("./looger");
 const app = express();
 const port = 3000;
 
@@ -16,6 +17,7 @@ const books = [
     title: "Book 3",
   },
 ];
+app.use(logger);
 app.get("/", (req, res) => {
   res.json(books);
 });
@@ -40,10 +42,10 @@ app.patch("/:id", (req, res) => {
   res.json(book);
 });
 app.delete("/:id", (req, res) => {
-  const bookIndex = books.findIndex((b) => b.id === parseInt(req.params.id));   
-    if (bookIndex === -1) return res.status(404).send("Book not found");
-    const deletedBook = books.splice(bookIndex, 1);
-    res.json(deletedBook[0]);
+  const bookIndex = books.findIndex((b) => b.id === parseInt(req.params.id));
+  if (bookIndex === -1) return res.status(404).send("Book not found");
+  const deletedBook = books.splice(bookIndex, 1);
+  res.json(deletedBook[0]);
 });
 
 function randomInt(min, max) {
